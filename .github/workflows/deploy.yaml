@@ -3,7 +3,7 @@ name: Deploy bengali astro site to production
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   deploy:

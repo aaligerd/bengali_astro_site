@@ -22,5 +22,5 @@ jobs:
           script: |
             cd /home/projects/astro_site/bengali_astro_site
             git pull
-            dokcer compose up -d --build
+            docker compose up -d --build
 

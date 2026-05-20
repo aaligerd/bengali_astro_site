@@ -59,7 +59,7 @@ export default function PalmistryPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
           
           {/* Interactive SVG Hand Visual Panel */}
-          <div className="glass-panel p-6 sm:p-10 rounded-2xl border border-astro-orange/15 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-[#0b0c10] to-[#050508] h-[450px]">
+          <div className="glass-panel p-6 sm:p-10 rounded-2xl border border-astro-orange/15 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-astro-dark/50 to-astro-deep/50 h-[450px]">
             <span className="absolute top-4 left-4 text-xs text-astro-cream/40 uppercase">তালুর নকশা</span>
             
             {/* SVG Hand Drawing with highlighted lines */}
@@ -132,8 +132,8 @@ export default function PalmistryPage() {
                   onClick={() => setSelectedLine(line)}
                   className={`py-2 px-3 rounded-xl border text-xs sm:text-sm font-semibold transition-all duration-300 text-left flex items-center space-x-2 ${
                     selectedLine.id === line.id
-                      ? "bg-astro-orange border-astro-orange text-astro-dark"
-                      : "bg-[#0b0c10] border-astro-orange/20 text-astro-cream hover:bg-astro-orange/5"
+                      ? "bg-astro-orange border-astro-orange text-[#0b0c10]"
+                      : "bg-astro-dark border-astro-orange/20 text-astro-cream hover:bg-astro-orange/5"
                   }`}
                 >
                   <span>{line.symbol}</span>

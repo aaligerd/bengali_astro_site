@@ -80,9 +80,9 @@ export default function AIChatPage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-[#0b0c10]">
+    <div className="flex flex-col h-screen bg-astro-deep">
       {/* Mini Chat Navbar */}
-      <nav className="border-b border-astro-orange/15 bg-[#050508]/90 py-3 px-4 sm:px-6 flex justify-between items-center shrink-0">
+      <nav className="border-b border-astro-orange/15 bg-astro-dark/90 py-3 px-4 sm:px-6 flex justify-between items-center shrink-0">
         <div className="flex items-center space-x-3">
           <Link href="/" className="text-astro-cream hover:text-astro-orange transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-6 h-6">
@@ -148,7 +148,7 @@ export default function AIChatPage() {
       </div>
 
       {/* Message input panel */}
-      <div className="border-t border-astro-orange/10 bg-[#050508]/85 p-3 sm:p-4 shrink-0">
+      <div className="border-t border-astro-orange/10 bg-astro-dark/85 p-3 sm:p-4 shrink-0">
         <form onSubmit={handleSend} className="max-w-3xl mx-auto flex items-center space-x-2">
           <input
             type="text"
@@ -156,7 +156,7 @@ export default function AIChatPage() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="আপনার প্রশ্নটি এখানে লিখুন (যেমন: চাকরি কবে হবে?)..."
-            className="flex-1 bg-[#0b0c10] border border-astro-orange/20 focus:border-astro-orange rounded-xl px-4 py-3 text-xs sm:text-sm text-astro-cream outline-none transition-colors"
+            className="flex-1 bg-astro-deep border border-astro-orange/20 focus:border-astro-orange rounded-xl px-4 py-3 text-xs sm:text-sm text-astro-cream outline-none transition-colors"
           />
           <button
             type="submit"

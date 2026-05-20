@@ -15,7 +15,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="bn" className={`${hindSiliguri.variable} h-full antialiased dark`}>
-      <body className="min-h-full flex flex-col bg-[#0b0c10] text-[#fffce7] font-sans">
+      <body className="min-h-full flex flex-col font-sans">
         {children}
       </body>
     </html>

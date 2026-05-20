@@ -23,7 +23,7 @@ export default function ZodiacHero() {
   return (
     <section className="py-12 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
       {/* Title */}
-      <div className="text-center mb-12 animate-fade-in">
+      {/* <div className="text-center mb-12 animate-fade-in">
         <span className="text-xs font-semibold tracking-widest text-astro-orange uppercase border border-astro-orange/20 px-3 py-1 rounded-full bg-astro-orange/5">
           ১২ রাশি ও নক্ষত্রের খেলা
         </span>
@@ -33,7 +33,7 @@ export default function ZodiacHero() {
         <p className="mt-4 text-base sm:text-lg text-astro-cream/70 max-w-2xl mx-auto">
           মহাবিশ্বের গ্রহ ও নক্ষত্রের অবস্থান আপনার আজকের দিনটিকে কেমন করে প্রভাবিত করছে তা জানতে নিচের ১২টি রাশির যেকোনো একটিতে ক্লিক করুন।
         </p>
-      </div>
+      </div> */}
 
       {/* Grid Layout of Zodiac Signs */}
       <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4 mb-10">

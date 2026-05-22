@@ -8,6 +8,7 @@ const hindSiliguri = Hind_Siliguri({
 });
 
 export const metadata = {
+  metadataBase: new URL("http://astrobengali.subhrodev.cloud"),
   title: {
     default: "সময়ের সময় | Somoyer somoy - বাংলা জ্যোতিষ ও রাশিফল",
     template: "%s | সময়ের সময়"
@@ -20,7 +21,7 @@ export const metadata = {
   openGraph: {
     title: "সময়ের সময় | Somoyer somoy - বাংলা জ্যোতিষ ও রাশিফল",
     description: "সময়ের সময় - সঠিক ও নির্ভরযোগ্য বাংলা রাশিফল, ট্যারোট কার্ড রিডিং, পঞ্জিকা, সংখ্যাবিজ্ঞান এবং হস্তরেখাবিদ্যা।",
-    url: "https://somoyersomoy.com",
+    url: "http://astrobengali.subhrodev.cloud",
     siteName: "সময়ের সময়",
     locale: "bn_BD",
     type: "website",

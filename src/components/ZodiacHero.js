@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
-import { zodiacData } from "@/data/zodiacData";
+import { useState, useEffect } from "react";
+import { useZodiacData } from "@/hooks/useZodiacData";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ZodiacHero() {
+  const zodiacData = useZodiacData();
   const [selectedSign, setSelectedSign] = useState(zodiacData[0]);
   const [activeTab, setActiveTab] = useState("daily"); // daily, weekly, monthly, yearly
+
+  useEffect(() => {
+    if (zodiacData && zodiacData.length > 0) {
+      const match = zodiacData.find((s) => s.id === selectedSign?.id);
+      setSelectedSign(match || zodiacData[0]);
+    }
+  }, [zodiacData]);
 
   const handleSignClick = (sign) => {
     setSelectedSign(sign);
@@ -43,33 +52,43 @@ export default function ZodiacHero() {
             <button
               key={sign.id}
               onClick={() => handleSignClick(sign)}
-              className={`flex flex-col items-center justify-center p-4 rounded-xl cursor-pointer glass-panel transition-all duration-300 text-center relative overflow-hidden group ${
+              className={`flex flex-col p-2.5 rounded-2xl cursor-pointer glass-panel transition-all duration-300 relative overflow-hidden group ${
                 isSelected
-                  ? "bg-astro-orange/15 border-astro-orange shadow-lg shadow-astro-orange/10 scale-105"
-                  : "hover:bg-astro-orange/5 hover:border-astro-orange/40 hover:scale-102"
+                  ? "bg-astro-orange/10 border-astro-orange shadow-lg shadow-astro-orange/10 scale-105"
+                  : "hover:bg-astro-orange/5 hover:border-astro-orange/30 hover:scale-102"
               }`}
             >
               {/* Glow Effect */}
               {isSelected && (
                 <span className="absolute inset-0 bg-radial-gradient from-astro-orange/10 to-transparent pointer-events-none" />
               )}
-              {/* Symbol */}
-              <span className={`text-3xl sm:text-4xl mb-2 transition-transform duration-500 group-hover:rotate-12 ${
-                isSelected ? "text-astro-orange scale-110" : "text-astro-cream/80"
+              
+              {/* Square Image/Symbol Container */}
+              <div className={`w-full aspect-square relative rounded-xl overflow-hidden bg-astro-deep/50 border transition-all duration-300 flex items-center justify-center ${
+                isSelected ? "border-astro-orange/50 shadow-inner" : "border-astro-orange/10 group-hover:border-astro-orange/30"
               }`}>
-                {sign.symbol}
-              </span>
-              {/* Bengali Name */}
-              <span className="font-semibold text-sm sm:text-base text-astro-cream">
+                {sign.image ? (
+                  <Image
+                    src={sign.image}
+                    alt={sign.name}
+                    fill
+                    sizes="(max-width: 640px) 33vw, (max-width: 768px) 25vw, 16vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                ) : (
+                  <span className={`text-4xl sm:text-5xl transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6 ${
+                    isSelected ? "text-astro-orange" : "text-astro-cream/60"
+                  }`}>
+                    {sign.symbol}
+                  </span>
+                )}
+              </div>
+
+              {/* Bengali Name Only */}
+              <span className={`mt-2 font-bold text-sm sm:text-base transition-colors duration-300 text-center block w-full truncate ${
+                isSelected ? "text-astro-orange" : "text-astro-cream group-hover:text-astro-orange"
+              }`}>
                 {sign.name}
-              </span>
-              {/* English Name */}
-              <span className="text-xxs sm:text-xs text-astro-cream/50">
-                {sign.englishName}
-              </span>
-              {/* Date */}
-              <span className="text-3xs sm:text-xxs text-astro-orange/70 mt-1 font-light leading-none">
-                {sign.dateBengali}
               </span>
             </button>
           );
@@ -84,9 +103,21 @@ export default function ZodiacHero() {
         {/* Selected Sign Details Header */}
         <div className="flex flex-col sm:flex-row items-center sm:justify-between border-b border-astro-orange/15 pb-6 mb-6">
           <div className="flex items-center space-x-4 mb-4 sm:mb-0">
-            <span className="text-5xl sm:text-6xl text-astro-orange select-none bg-astro-orange/10 p-3 rounded-full border border-astro-orange/20">
-              {selectedSign.symbol}
-            </span>
+            {selectedSign?.image ? (
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-astro-orange/10 p-1.5 rounded-xl border border-astro-orange/20 shrink-0 flex items-center justify-center overflow-hidden">
+                <Image
+                  src={selectedSign.image}
+                  alt={selectedSign.name}
+                  width={80}
+                  height={80}
+                  className="object-cover w-full h-full rounded-lg"
+                />
+              </div>
+            ) : (
+              <span className="text-5xl sm:text-6xl text-astro-orange select-none bg-astro-orange/10 p-3 rounded-xl border border-astro-orange/20 shrink-0">
+                {selectedSign?.symbol}
+              </span>
+            )}
             <div>
               <div className="flex items-center space-x-2">
                 <h2 className="text-2xl sm:text-3xl font-bold text-astro-cream">

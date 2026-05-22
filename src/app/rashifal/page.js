@@ -3,22 +3,28 @@
 import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { zodiacData } from "@/data/zodiacData";
+import Image from "next/image";
+import { useZodiacData } from "@/hooks/useZodiacData";
 
 function RashifalContent() {
   const searchParams = useSearchParams();
+  const zodiacData = useZodiacData();
   const [selectedSign, setSelectedSign] = useState(zodiacData[0]);
   const [activeTab, setActiveTab] = useState("daily");
 
   useEffect(() => {
+    if (!zodiacData || zodiacData.length === 0) return;
     const signParam = searchParams.get("sign");
     if (signParam) {
       const match = zodiacData.find((s) => s.id === signParam.toLowerCase());
       if (match) {
         setSelectedSign(match);
+        return;
       }
     }
-  }, [searchParams]);
+    const currentMatch = zodiacData.find((s) => s.id === selectedSign?.id);
+    setSelectedSign(currentMatch || zodiacData[0]);
+  }, [searchParams, zodiacData]);
 
   const tabs = [
     { id: "daily", name: "আজকের রাশিফল" },
@@ -50,7 +56,19 @@ function RashifalContent() {
                       : "text-astro-cream/80 hover:bg-astro-orange/5 hover:text-astro-orange border border-transparent"
                   }`}
                 >
-                  <span className="text-lg sm:text-xl md:text-2xl">{sign.symbol}</span>
+                  {sign.image ? (
+                    <div className="relative w-6 h-6 sm:w-8 sm:h-8 shrink-0 flex items-center justify-center overflow-hidden rounded-md bg-astro-deep/50 border border-astro-orange/15">
+                      <Image
+                        src={sign.image}
+                        alt={sign.name}
+                        width={32}
+                        height={32}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  ) : (
+                    <span className="text-lg sm:text-xl md:text-2xl">{sign.symbol}</span>
+                  )}
                   <span className="text-xs sm:text-sm md:text-base">
                     {sign.name} <span className="hidden md:inline-block">({sign.englishName})</span>
                   </span>
@@ -68,9 +86,21 @@ function RashifalContent() {
 
           {/* Header Info */}
           <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left space-y-4 sm:space-y-0 sm:space-x-4 border-b border-astro-orange/15 pb-6 mb-6">
-            <span className="text-4xl sm:text-6xl text-astro-orange select-none bg-astro-orange/10 p-2.5 sm:p-3 rounded-full border border-astro-orange/20 shrink-0">
-              {selectedSign.symbol}
-            </span>
+            {selectedSign.image ? (
+              <div className="relative w-16 h-16 sm:w-20 sm:h-20 bg-astro-orange/10 p-1.5 rounded-xl border border-astro-orange/20 shrink-0 flex items-center justify-center overflow-hidden">
+                <Image
+                  src={selectedSign.image}
+                  alt={selectedSign.name}
+                  width={80}
+                  height={80}
+                  className="object-cover w-full h-full rounded-lg"
+                />
+              </div>
+            ) : (
+              <span className="text-4xl sm:text-6xl text-astro-orange select-none bg-astro-orange/10 p-2.5 sm:p-3 rounded-xl border border-astro-orange/20 shrink-0">
+                {selectedSign.symbol}
+              </span>
+            )}
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-astro-cream">
                 {selectedSign.name} রাশিফল
@@ -131,18 +161,38 @@ function RashifalContent() {
 
             {/* Custom additional detailed readings to make it feel premium */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
-                <h4 className="font-semibold text-astro-orange text-sm mb-1">❤️ প্রেম ও দাম্পত্য সম্পর্ক</h4>
-                <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
-                  এই চক্রে সম্পর্ক স্বাভাবিক থাকবে। জীবনসঙ্গীর সাথে আলোচনার মাধ্যমে ছোটখাটো ভুল বোঝাবুঝি মিটিয়ে ফেলুন। অহেতুক তর্ক এড়িয়ে চলাই শ্রেয়।
-                </p>
-              </div>
-              <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
-                <h4 className="font-semibold text-astro-orange text-sm mb-1">💼 আর্থিক উন্নয়ন ও ব্যবসায়িক চুক্তি</h4>
-                <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
-                  ব্যবসা সম্প্রসারণ বা আর্থিক সঞ্চয়ে গতি আসবে। কোনো অভিজ্ঞ ব্যক্তির পরামর্শে নতুন বিনিয়োগ করতে পারেন। ঋণের আবেদন মঞ্জুর হতে পারে।
-                </p>
-              </div>
+              {selectedSign.love && (
+                <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
+                  <h4 className="font-semibold text-astro-orange text-sm mb-1">❤️ প্রেম ও দাম্পত্য সম্পর্ক</h4>
+                  <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
+                    {selectedSign.love}
+                  </p>
+                </div>
+              )}
+              {selectedSign.career && (
+                <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
+                  <h4 className="font-semibold text-astro-orange text-sm mb-1">🛠️ কর্মজীবন ও পেশা</h4>
+                  <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
+                    {selectedSign.career}
+                  </p>
+                </div>
+              )}
+              {selectedSign.wealth && (
+                <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
+                  <h4 className="font-semibold text-astro-orange text-sm mb-1">💰 ধনসম্পদ ও সঞ্চয়</h4>
+                  <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
+                    {selectedSign.wealth}
+                  </p>
+                </div>
+              )}
+              {selectedSign.business && (
+                <div className="bg-astro-deep p-4 rounded-xl border border-astro-orange/10">
+                  <h4 className="font-semibold text-astro-orange text-sm mb-1">📈 ব্যবসা ও আর্থিক চুক্তি</h4>
+                  <p className="text-xs sm:text-sm text-astro-cream/70 leading-relaxed">
+                    {selectedSign.business}
+                  </p>
+                </div>
+              )}
             </div>
 
             <div className="pt-4 border-t border-astro-orange/10 flex flex-col sm:flex-row justify-between items-center text-xs text-astro-cream/40 gap-2">

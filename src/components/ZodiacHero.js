@@ -5,10 +5,17 @@ import { useZodiacData } from "@/hooks/useZodiacData";
 import Link from "next/link";
 import Image from "next/image";
 
-export default function ZodiacHero() {
-  const zodiacData = useZodiacData();
-  const [selectedSign, setSelectedSign] = useState(zodiacData[0]);
+export default function ZodiacHero({ initialData }) {
+  const clientZodiacData = useZodiacData();
+  const [zodiacData, setZodiacData] = useState(initialData || []);
+  const [selectedSign, setSelectedSign] = useState(zodiacData[0] || null);
   const [activeTab, setActiveTab] = useState("daily"); // daily, weekly, monthly, yearly
+
+  useEffect(() => {
+    if (clientZodiacData && clientZodiacData.length > 0) {
+      setZodiacData(clientZodiacData);
+    }
+  }, [clientZodiacData]);
 
   useEffect(() => {
     if (zodiacData && zodiacData.length > 0) {

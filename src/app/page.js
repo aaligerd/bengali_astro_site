@@ -2,8 +2,12 @@ import Navbar from "@/components/Navbar";
 import ZodiacHero from "@/components/ZodiacHero";
 import PersonalReportForm from "@/components/PersonalReportForm";
 import Link from "next/link";
+import { getZodiacs } from "@/lib/get-zodiacs";
 
-export default function Home() {
+export const revalidate = 3600; // Revalidate static page every hour (or on-demand)
+
+export default async function Home() {
+  const zodiacData = await getZodiacs();
   const featureList = [
     {
       title: "ট্যারোট কার্ড রিডিং",
@@ -52,7 +56,7 @@ export default function Home() {
         </div>
 
         {/* Zodiac Grid Section */}
-        <ZodiacHero />
+        <ZodiacHero initialData={zodiacData} />
 
         {/* Interactive Feature Grid */}
         <section className="py-12 px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">

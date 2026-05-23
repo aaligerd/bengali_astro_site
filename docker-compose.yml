@@ -10,15 +10,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5050
-    # If your Postgres is running on the VPS host (localhost) and you want to connect using localhost:
-    networks:
-      - astro-net
-    
-    # Or, if you prefer the default bridge network, use the host gateway mapping:
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+
     restart: always
 
-networks:
-  astro-net:
-    driver: bridge
+

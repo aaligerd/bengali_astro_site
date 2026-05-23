@@ -18,7 +18,8 @@ export function useZodiacData() {
     // 2. Fetch fresh data from the server API
     async function fetchZodiacData() {
       try {
-        const response = await fetch("/api/horoscope");
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+        const response = await fetch(`${backendUrl}/api/horoscope`);
         if (response.ok) {
           const freshData = await response.json();
           if (Array.isArray(freshData) && freshData.length > 0) {

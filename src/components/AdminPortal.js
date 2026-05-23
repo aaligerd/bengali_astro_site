@@ -50,7 +50,8 @@ export default function AdminPortal({ initialData }) {
   useEffect(() => {
     async function checkSession() {
       try {
-        const response = await fetch("/api/admin/session");
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+        const response = await fetch(`${backendUrl}/api/admin/session`, { credentials: "include" });
         if (response.ok) {
           const session = await response.json();
           if (session.authenticated) {
@@ -77,7 +78,8 @@ export default function AdminPortal({ initialData }) {
   const fetchLogs = async (page = 1) => {
     setIsLoadingLogs(true);
     try {
-      const res = await fetch(`/api/admin/logs?page=${page}&limit=10`);
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const res = await fetch(`${backendUrl}/api/admin/logs?page=${page}&limit=10`, { credentials: "include" });
       if (res.ok) {
         const logData = await res.json();
         setLogs(logData.logs || []);
@@ -98,10 +100,12 @@ export default function AdminPortal({ initialData }) {
     e.preventDefault();
     setErrorMsg("");
     try {
-      const response = await fetch("/api/admin/login", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const response = await fetch(`${backendUrl}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: loginUsername, password: loginPassword }),
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -123,8 +127,10 @@ export default function AdminPortal({ initialData }) {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("/api/admin/logout", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const response = await fetch(`${backendUrl}/api/admin/logout`, {
         method: "POST",
+        credentials: "include",
       });
       if (response.ok) {
         setIsAuthenticated(false);
@@ -151,10 +157,12 @@ export default function AdminPortal({ initialData }) {
 
     setIsSubmittingAdmin(true);
     try {
-      const response = await fetch("/api/admin/create", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const response = await fetch(`${backendUrl}/api/admin/create`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username: newUsername, password: newPassword }),
+        credentials: "include",
       });
 
       const result = await response.json();
@@ -216,7 +224,8 @@ export default function AdminPortal({ initialData }) {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("/api/horoscope", {
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const response = await fetch(`${backendUrl}/api/horoscope`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -224,6 +233,7 @@ export default function AdminPortal({ initialData }) {
         body: JSON.stringify({
           data: data,
         }),
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -331,10 +341,12 @@ export default function AdminPortal({ initialData }) {
       reader.onload = async (event) => {
         try {
           const csvText = event.target.result;
-          const response = await fetch("/api/admin/bulk-update", {
+          const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+          const response = await fetch(`${backendUrl}/api/admin/bulk-update`, {
             method: "POST",
             headers: { "Content-Type": "text/csv" },
             body: csvText,
+            credentials: "include",
           });
 
           const result = await response.json();

@@ -100,7 +100,7 @@ export default function AdminPortal({ initialData }) {
     e.preventDefault();
     setErrorMsg("");
     try {
-      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+      const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
       const response = await fetch(`${backendUrl}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

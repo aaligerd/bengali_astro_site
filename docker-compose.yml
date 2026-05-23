@@ -3,14 +3,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_BACKEND_URL: http://72.61.224.143
+        BACKEND_URL: http://72.61.224.143
+
     ports:
       - "5050:5050"
+
     env_file:
       - .env.local
+
     environment:
       - NODE_ENV=production
       - PORT=5050
 
     restart: always
-
-
